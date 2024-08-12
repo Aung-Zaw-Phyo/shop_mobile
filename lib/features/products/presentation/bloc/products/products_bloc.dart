@@ -7,16 +7,34 @@ import 'package:shop_mobile/features/products/presentation/bloc/products/product
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final GetProductsUseCase _getProductsUseCase;
 
-  ProductsBloc(this._getProductsUseCase) : super(const ProductsInitial()) {
+  ProductsBloc(this._getProductsUseCase) : super(const ProductsLoading()) {
     on<GetProducts>(
       onGetProducts,
+      transformer: debounce(const Duration(milliseconds: 500)),
+    );
+    on<ProductsRefresh>(
+      onProductsRefresh,
       transformer: debounce(const Duration(milliseconds: 500)),
     );
   }
 
   void onGetProducts(GetProducts event, Emitter<ProductsState> emit) async {
+    final result = await _getProductsUseCase.execute(event.page);
+    result.fold((failure) {
+      emit(ProductsFailed(failure.messages));
+    }, (result) {
+      final data = state.productsDataEntity;
+      if (data != null) {
+        result.products.insertAll(0, data.products);
+      }
+      emit(ProductsLoaded(result));
+    });
+  }
+
+  void onProductsRefresh(
+      ProductsRefresh event, Emitter<ProductsState> emit) async {
     emit(const ProductsLoading());
-    final result = await _getProductsUseCase.execute();
+    final result = await _getProductsUseCase.execute(1);
     result.fold((failure) {
       emit(ProductsFailed(failure.messages));
     }, (result) {

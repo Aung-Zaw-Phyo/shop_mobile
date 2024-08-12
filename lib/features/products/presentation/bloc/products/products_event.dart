@@ -9,7 +9,7 @@ abstract class ProductsEvent extends Equatable {
 
 class GetProducts extends ProductsEvent {
   final int page;
-  const GetProducts({required this.page});
+  const GetProducts(this.page);
 
   @override
   List<Object> get props => [page];

@@ -13,12 +13,33 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+  final controller = ScrollController();
+
   @override
   void initState() {
     final productsBloc = BlocProvider.of<ProductsBloc>(context);
-    productsBloc.add(const GetProducts(page: 1));
+    productsBloc.add(const GetProducts(1));
 
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        final productsData = productsBloc.state.productsDataEntity;
+        if (productsData != null &&
+            productsData.currentPage < productsData.totalPages) {
+          productsBloc.add(GetProducts(productsData.currentPage + 1));
+        }
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future refresh() async {
+    BlocProvider.of<ProductsBloc>(context).add(const ProductsRefresh());
   }
 
   @override
@@ -39,37 +60,57 @@ class _ProductsScreenState extends State<ProductsScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-        child: BlocBuilder<ProductsBloc, ProductsState>(
-          builder: (context, state) {
-            if (state is ProductsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state is ProductsFailed) {
-              return Center(
-                child: Text(state.errors![0]),
-              );
-            }
-            if (state is ProductsLoaded) {
-              return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  childAspectRatio: 3 / 4.6,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: state.products!.length,
-                itemBuilder: (context, index) {
-                  return ProductItem(product: state.products![index]);
-                },
-              );
-            }
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          child: BlocBuilder<ProductsBloc, ProductsState>(
+            builder: (context, state) {
+              if (state is ProductsLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is ProductsFailed) {
+                return Center(
+                  child: Text(state.errors![0]),
+                );
+              }
 
-            return Container();
-          },
+              if (state is ProductsLoaded) {
+                final productsData = state.productsDataEntity!;
+
+                return GridView.builder(
+                  controller: controller,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 4.6,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemCount: productsData.products.length,
+                  itemBuilder: (context, index) {
+                    if (index <= productsData.products.length) {
+                      return ProductItem(product: productsData.products[index]);
+                    } else {
+                      return const SizedBox();
+                      // if (productsData.currentPage == productsData.totalPages) {
+                      //   return const SizedBox();
+                      // }
+                      // return const Center(
+                      //   child: Padding(
+                      //     padding: EdgeInsets.symmetric(vertical: 32),
+                      //     child: CircularProgressIndicator(),
+                      //   ),
+                      // );
+                    }
+                  },
+                );
+              }
+
+              return Container();
+            },
+          ),
         ),
       ),
     );
