@@ -6,6 +6,7 @@ import 'package:shop_mobile/features/products/data/models/products_data_model.da
 
 abstract class ProductsRemoteDataSource {
   Future<ProductsDataModel> getProducts(int page);
+  Future<ProductModel> getProductDetail(int productId);
 }
 
 class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
@@ -28,6 +29,18 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
         products: products,
       );
       return productsData;
+    } else {
+      throw ServerException(response.data['messages'] ?? ['Something wrong!']);
+    }
+  }
+
+  @override
+  Future<ProductModel> getProductDetail(int productId) async {
+    final response = await _dio.get('${Constant.baseUrl}/products/$productId');
+
+    if (response.statusCode == 200) {
+      final product = ProductModel.fromJson(response.data['data']);
+      return product;
     } else {
       throw ServerException(response.data['messages'] ?? ['Something wrong!']);
     }

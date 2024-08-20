@@ -6,6 +6,7 @@ import 'package:shop_mobile/features/products/presentation/bloc/products/product
 import 'package:shop_mobile/features/products/presentation/widgets/product_item.dart';
 
 class ProductsScreen extends StatefulWidget {
+  static const String routeName = '/';
   const ProductsScreen({super.key});
 
   @override
@@ -94,15 +95,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       return ProductItem(product: productsData.products[index]);
                     } else {
                       return const SizedBox();
-                      // if (productsData.currentPage == productsData.totalPages) {
-                      //   return const SizedBox();
-                      // }
-                      // return const Center(
-                      //   child: Padding(
-                      //     padding: EdgeInsets.symmetric(vertical: 32),
-                      //     child: CircularProgressIndicator(),
-                      //   ),
-                      // );
                     }
                   },
                 );

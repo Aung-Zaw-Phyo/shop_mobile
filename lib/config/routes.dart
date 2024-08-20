@@ -1,17 +1,27 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:shop_mobile/features/products/domain/entities/product.dart';
+import 'package:shop_mobile/features/products/presentation/pages/product_detail_screen.dart';
+import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
 
-// class AppRoutes {
-//   static Route onGenerateRoutes(RouteSettings settings) {
-//     switch (settings.name) {
-//       case '/':
-//         return _materialRoute(const TabsScreen());
+class AppRoutes {
+  static Route onGenerateRoutes(RouteSettings settings) {
+    switch (settings.name) {
+      case ProductsScreen.routeName:
+        return _materialRoute(const ProductsScreen());
 
-//       default:
-//         return _materialRoute(const TabsScreen());
-//     }
-//   }
+      case ProductDetailScreen.routeName:
+        return _materialRoute(
+          ProductDetailScreen(
+            product: settings.arguments as ProductEntity,
+          ),
+        );
 
-//   static Route<dynamic> _materialRoute(Widget view) {
-//     return MaterialPageRoute(builder: (_) => view);
-//   }
-// }
+      default:
+        return _materialRoute(const ProductsScreen());
+    }
+  }
+
+  static Route<dynamic> _materialRoute(Widget view) {
+    return MaterialPageRoute(builder: (_) => view);
+  }
+}
