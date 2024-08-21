@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_mobile/core/helper.dart';
 import 'package:shop_mobile/features/cart/presentation/pages/cart_screen.dart';
 
 class AppBarCart extends StatelessWidget {
@@ -7,7 +8,14 @@ class AppBarCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        final isToken = await hasToken();
+        if (!isToken) {
+          // ignore: use_build_context_synchronously
+          error(context, 'Please login or register.');
+          return;
+        }
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamed(CartScreen.routeName);
       },
       child: const Icon(

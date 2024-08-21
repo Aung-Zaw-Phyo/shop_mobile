@@ -4,6 +4,7 @@ import 'package:shop_mobile/features/products/presentation/bloc/products/product
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_event.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_state.dart';
 import 'package:shop_mobile/features/products/presentation/widgets/app_bar_cart.dart';
+import 'package:shop_mobile/features/products/presentation/widgets/main_drawer.dart';
 import 'package:shop_mobile/features/products/presentation/widgets/product_item.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -50,15 +51,28 @@ class _ProductsScreenState extends State<ProductsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         foregroundColor: Colors.white,
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Shopping'),
-            AppBarCart(),
+            const Text('Products'),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {},
+                  child: const Icon(
+                    Icons.search,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                const AppBarCart(),
+              ],
+            ),
           ],
         ),
       ),
+      drawer: const MainDrawer(),
       body: RefreshIndicator(
         onRefresh: refresh,
         child: Padding(
