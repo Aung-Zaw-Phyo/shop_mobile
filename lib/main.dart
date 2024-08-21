@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_mobile/config/routes.dart';
+import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/product_detail/product_detail_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ProductsBloc>(create: (_) => locator<ProductsBloc>()),
+        BlocProvider<CartBloc>(create: (_) => locator<CartBloc>()),
         BlocProvider<ProductDetailBloc>(
             create: (_) => locator<ProductDetailBloc>()),
       ],

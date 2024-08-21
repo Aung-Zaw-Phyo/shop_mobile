@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_mobile/features/products/domain/entities/product.dart';
 import 'package:shop_mobile/features/products/presentation/widgets/add_to_cart.dart';
+import 'package:shop_mobile/features/products/presentation/widgets/app_bar_cart.dart';
 import 'package:shop_mobile/features/products/presentation/widgets/product_content.dart';
 import 'package:shop_mobile/features/products/presentation/widgets/product_images.dart';
 
@@ -21,10 +22,7 @@ class ProductDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text('Details'),
-            Icon(
-              Icons.shopping_cart,
-              size: 28,
-            ),
+            AppBarCart(),
           ],
         ),
       ),

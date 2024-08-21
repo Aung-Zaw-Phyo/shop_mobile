@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_event.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_state.dart';
+import 'package:shop_mobile/features/products/presentation/widgets/app_bar_cart.dart';
 import 'package:shop_mobile/features/products/presentation/widgets/product_item.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -54,10 +55,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text('Shopping'),
-            Icon(
-              Icons.shopping_cart,
-              size: 28,
-            ),
+            AppBarCart(),
           ],
         ),
       ),

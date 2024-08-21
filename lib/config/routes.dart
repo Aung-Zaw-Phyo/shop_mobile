@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_mobile/features/products/domain/entities/product.dart';
+import 'package:shop_mobile/features/cart/presentation/pages/cart_screen.dart';
 import 'package:shop_mobile/features/products/presentation/pages/product_detail_screen.dart';
 import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
 
@@ -15,6 +16,9 @@ class AppRoutes {
             product: settings.arguments as ProductEntity,
           ),
         );
+
+      case CartScreen.routeName:
+        return _materialRoute(const CartScreen());
 
       default:
         return _materialRoute(const ProductsScreen());
