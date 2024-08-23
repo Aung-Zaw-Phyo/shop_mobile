@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_mobile/features/auth/presentation/pages/login_screen.dart';
+import 'package:shop_mobile/features/auth/presentation/pages/register_screen.dart';
 import 'package:shop_mobile/features/products/domain/entities/product.dart';
 import 'package:shop_mobile/features/cart/presentation/pages/cart_screen.dart';
 import 'package:shop_mobile/features/products/presentation/pages/product_detail_screen.dart';
@@ -19,6 +21,12 @@ class AppRoutes {
 
       case CartScreen.routeName:
         return _materialRoute(const CartScreen());
+
+      case LoginScreen.routeName:
+        return _materialRoute(const LoginScreen());
+
+      case RegisterScreen.routeName:
+        return _materialRoute(const RegisterScreen());
 
       default:
         return _materialRoute(const ProductsScreen());

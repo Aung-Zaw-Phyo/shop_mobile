@@ -1,5 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:shop_mobile/core/dio_client.dart';
+import 'package:shop_mobile/features/auth/data/data_sources/remote_data_source.dart';
+import 'package:shop_mobile/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:shop_mobile/features/auth/domain/repositories/auth_repositor.dart';
+import 'package:shop_mobile/features/auth/domain/usecases/login.dart';
+import 'package:shop_mobile/features/auth/domain/usecases/register.dart';
+import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:shop_mobile/features/cart/data/data_sources/remote_data_source.dart';
 import 'package:shop_mobile/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:shop_mobile/features/cart/domain/repositories/cart_repository.dart';
@@ -26,6 +32,9 @@ void setupLocator() async {
   locator.registerFactory<CartBloc>(
     () => CartBloc(locator()),
   );
+  locator.registerFactory<AuthBloc>(
+    () => AuthBloc(locator(), locator()),
+  );
 
   // usecase
   locator.registerLazySingleton<GetProductsUseCase>(
@@ -34,18 +43,25 @@ void setupLocator() async {
       () => GetProductDetailUseCase(locator()));
   locator
       .registerLazySingleton<GetCartUseCase>(() => GetCartUseCase(locator()));
+  locator.registerLazySingleton<LoginUseCase>(() => LoginUseCase(locator()));
+  locator
+      .registerLazySingleton<RegisterUseCase>(() => RegisterUseCase(locator()));
 
   // repository
   locator.registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImpl(locator()));
   locator.registerLazySingleton<CartRepository>(
       () => CartRepositoryImpl(locator()));
+  locator.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(locator()));
 
   // datasource
   locator.registerLazySingleton<ProductsRemoteDataSource>(
       () => ProductsRemoteDataSourceImpl(locator()));
   locator.registerLazySingleton<CartRemoteDataSource>(
       () => CartRemoteDataSourceImpl(locator()));
+  locator.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(locator()));
 
   // external
 

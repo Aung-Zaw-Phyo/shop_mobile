@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_mobile/core/helper.dart';
+import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_event.dart';
+import 'package:shop_mobile/features/auth/presentation/pages/login_screen.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({super.key});
@@ -13,7 +17,9 @@ class _MainDrawerState extends State<MainDrawer> {
 
   void checkToken() async {
     final result = await hasToken();
-    isToken = result;
+    setState(() {
+      isToken = result;
+    });
   }
 
   @override
@@ -91,6 +97,25 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               onTap: () {},
             ),
+          if (isToken)
+            ListTile(
+              leading: Icon(
+                Icons.logout,
+                size: 26,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'Logout',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 22,
+                    ),
+              ),
+              onTap: () {
+                BlocProvider.of<AuthBloc>(context).add(const AuthLogout());
+                Navigator.of(context).pop();
+              },
+            ),
           if (!isToken)
             ListTile(
               leading: Icon(
@@ -105,7 +130,9 @@ class _MainDrawerState extends State<MainDrawer> {
                       fontSize: 22,
                     ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, LoginScreen.routeName);
+              },
             ),
         ],
       ),
