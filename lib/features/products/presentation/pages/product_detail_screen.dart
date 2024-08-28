@@ -26,15 +26,33 @@ class ProductDetailScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            ProductImages(product: product),
-            ProductContent(product: product),
-            AddToCart(product: product),
-          ],
-        ),
+      body: Column(
+        children: [
+          ProductImages(product: product),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
+                ),
+                border: Border(
+                    top: BorderSide(color: Colors.black.withOpacity(0.3))),
+                color: Colors.white,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ProductContent(product: product),
+                    const SizedBox(height: 10),
+                    AddToCart(product: product),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

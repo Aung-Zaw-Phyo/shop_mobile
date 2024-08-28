@@ -18,7 +18,7 @@ class ProductContent extends StatelessWidget {
               child: Flexible(
                 child: Text(
                   product.name,
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 19),
                 ),
               ),
             ),
@@ -32,7 +32,7 @@ class ProductContent extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Text(
           product.description,
           style: Theme.of(context).textTheme.bodyLarge,
