@@ -4,6 +4,7 @@ import 'package:shop_mobile/core/helper.dart';
 import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_event.dart';
 import 'package:shop_mobile/features/auth/presentation/pages/login_screen.dart';
+import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({super.key});
@@ -113,7 +114,8 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               onTap: () {
                 BlocProvider.of<AuthBloc>(context).add(const AuthLogout());
-                Navigator.of(context).pop();
+                Navigator.pushReplacementNamed(
+                    context, ProductsScreen.routeName);
               },
             ),
           if (!isToken)

@@ -4,4 +4,12 @@ import 'package:shop_mobile/features/cart/domain/entities/cart.dart';
 
 abstract class CartRepository {
   Future<Either<Failure, CartEntity>> getCart();
+  Future<Either<Failure, CartEntity>> addItem({
+    required int quantity,
+    required int variantId,
+  });
+  Future<Either<Failure, CartEntity>> removeItem({
+    required int quantity,
+    required int variantId,
+  });
 }

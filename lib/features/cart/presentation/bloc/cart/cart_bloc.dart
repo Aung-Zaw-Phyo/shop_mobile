@@ -12,6 +12,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       onGetCart,
       transformer: debounce(const Duration(milliseconds: 500)),
     );
+    on<CartItemChange>(
+      onCartItemChange,
+      transformer: debounce(const Duration(milliseconds: 500)),
+    );
   }
 
   void onGetCart(GetCart event, Emitter<CartState> emit) async {
@@ -21,6 +25,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }, (result) {
       emit(CartLoaded(result));
     });
+  }
+
+  void onCartItemChange(CartItemChange event, Emitter<CartState> emit) {
+    emit(CartLoaded(event.cartEntity));
   }
 }
 

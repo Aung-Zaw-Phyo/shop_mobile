@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
+import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_event.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_event.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_state.dart';
@@ -21,6 +23,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
     final productsBloc = BlocProvider.of<ProductsBloc>(context);
+    BlocProvider.of<CartBloc>(context).add(const GetCart());
     productsBloc.add(const GetProducts(1));
 
     controller.addListener(() {

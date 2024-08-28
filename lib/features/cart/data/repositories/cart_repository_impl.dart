@@ -23,4 +23,42 @@ class CartRepositoryImpl extends CartRepository {
           ConnectionFailure(['Failed to connect to the internet']));
     }
   }
+
+  @override
+  Future<Either<Failure, CartEntity>> addItem({
+    required int quantity,
+    required int variantId,
+  }) async {
+    try {
+      final result = await _cartRemoteDataSource.addItem(
+        quantity: quantity,
+        variantId: variantId,
+      );
+      return right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(error.messages));
+    } on SocketException {
+      return const Left(
+          ConnectionFailure(['Failed to connect to the internet']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CartEntity>> removeItem({
+    required int quantity,
+    required int variantId,
+  }) async {
+    try {
+      final result = await _cartRemoteDataSource.removeItem(
+        quantity: quantity,
+        variantId: variantId,
+      );
+      return right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(error.messages));
+    } on SocketException {
+      return const Left(
+          ConnectionFailure(['Failed to connect to the internet']));
+    }
+  }
 }
