@@ -2,11 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:shop_mobile/core/error/exception.dart';
 import 'package:shop_mobile/core/helper.dart';
 import 'package:shop_mobile/features/cart/data/models/cart_model.dart';
+import 'package:shop_mobile/features/cart/data/models/shipping_address_model.dart';
 
 abstract class CartRemoteDataSource {
   Future<CartModel> getCart();
   Future<CartModel> addItem({required int quantity, required int variantId});
   Future<CartModel> removeItem({required int quantity, required int variantId});
+  Future<String> createPayment({required ShippingAddressModel shippingAddress});
 }
 
 class CartRemoteDataSourceImpl extends CartRemoteDataSource {
@@ -69,6 +71,29 @@ class CartRemoteDataSourceImpl extends CartRemoteDataSource {
       final cart =
           CartModel.fromJson(response.data['data'] as Map<String, dynamic>);
       return cart;
+    } else {
+      final messages = response.data['messages'] == null
+          ? ['Something wrong!']
+          : (response.data['messages'] as List<dynamic>).cast<String>();
+      throw ServerException(messages);
+    }
+  }
+
+  @override
+  Future<String> createPayment({
+    required ShippingAddressModel shippingAddress,
+  }) async {
+    final prefs = await sharedPrefs();
+    final token = prefs.getString('token');
+    _dio.options.headers['Authorization'] = 'Bearer $token';
+
+    final response = await _dio.post(
+      '/stripe/create-payment-intents',
+      data: shippingAddress.toJson(),
+    );
+
+    if (response.statusCode == 201) {
+      return response.data['data'];
     } else {
       final messages = response.data['messages'] == null
           ? ['Something wrong!']

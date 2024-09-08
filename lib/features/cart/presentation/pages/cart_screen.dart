@@ -4,10 +4,13 @@ import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart'
 import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_event.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_state.dart';
 import 'package:shop_mobile/features/cart/presentation/widgets/item.dart';
+import 'package:shop_mobile/features/cart/presentation/widgets/shipping_form_dialog.dart';
 
 class CartScreen extends StatefulWidget {
   static const String routeName = '/cart';
   const CartScreen({super.key});
+
+  void test() {}
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +23,16 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     BlocProvider.of<CartBloc>(context).add(const GetCart());
     super.initState();
+  }
+
+  void _showShippingAddressForm() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ShippingFormDialog();
+      },
+    );
   }
 
   Future refresh() async {
@@ -61,11 +74,23 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   );
                 }
-                return ListView.builder(
-                  itemCount: cart.items.length,
-                  itemBuilder: (context, index) {
-                    return Item(item: cart.items[index]);
-                  },
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: cart.items.length,
+                        itemBuilder: (context, index) {
+                          return Item(item: cart.items[index]);
+                        },
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        _showShippingAddressForm();
+                      },
+                      child: const Text('Checkout'),
+                    ),
+                  ],
                 );
               }
 

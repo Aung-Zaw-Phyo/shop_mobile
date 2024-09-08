@@ -10,8 +10,10 @@ import 'package:shop_mobile/features/cart/data/data_sources/remote_data_source.d
 import 'package:shop_mobile/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:shop_mobile/features/cart/domain/repositories/cart_repository.dart';
 import 'package:shop_mobile/features/cart/domain/usecases/add_item.dart';
+import 'package:shop_mobile/features/cart/domain/usecases/create_payment.dart';
 import 'package:shop_mobile/features/cart/domain/usecases/remove_item.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/item/item_bloc.dart';
+import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_bloc.dart';
 import 'package:shop_mobile/features/products/data/data_sources/remote_data_source.dart';
 import 'package:shop_mobile/features/products/data/repositories/products_repository_impl.dart';
 import 'package:shop_mobile/features/products/domain/repositories/products_repository.dart';
@@ -41,6 +43,9 @@ void setupLocator() async {
   locator.registerFactory<AuthBloc>(
     () => AuthBloc(locator(), locator()),
   );
+  locator.registerFactory<PaymentBloc>(
+    () => PaymentBloc(locator()),
+  );
 
   // usecase
   locator.registerLazySingleton<GetProductsUseCase>(
@@ -56,6 +61,8 @@ void setupLocator() async {
   locator.registerLazySingleton<LoginUseCase>(() => LoginUseCase(locator()));
   locator
       .registerLazySingleton<RegisterUseCase>(() => RegisterUseCase(locator()));
+  locator.registerLazySingleton<CreatePaymentUseCase>(
+      () => CreatePaymentUseCase(locator()));
 
   // repository
   locator.registerLazySingleton<ProductsRepository>(
