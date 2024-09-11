@@ -79,4 +79,18 @@ class CartRepositoryImpl extends CartRepository {
           ConnectionFailure(['Failed to connect to the internet']));
     }
   }
+
+  @override
+  Future<Either<Failure, int>> checkPayment({required String sessionId}) async {
+    try {
+      final result =
+          await _cartRemoteDataSource.checkPayment(sessionId: sessionId);
+      return right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(error.messages));
+    } on SocketException {
+      return const Left(
+          ConnectionFailure(['Failed to connect to the internet']));
+    }
+  }
 }

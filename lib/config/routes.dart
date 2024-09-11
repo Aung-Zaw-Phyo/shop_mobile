@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_mobile/features/auth/presentation/pages/login_screen.dart';
 import 'package:shop_mobile/features/auth/presentation/pages/register_screen.dart';
+import 'package:shop_mobile/features/cart/presentation/pages/check_payment_screen.dart';
 import 'package:shop_mobile/features/orders/presentation/pages/order_details_screen.dart';
 import 'package:shop_mobile/features/orders/presentation/pages/orders_screen.dart';
 import 'package:shop_mobile/features/products/domain/entities/product.dart';
@@ -23,6 +24,13 @@ class AppRoutes {
 
       case CartScreen.routeName:
         return _materialRoute(const CartScreen());
+
+      case CheckPaymentScreen.routeName:
+        return _materialRoute(
+          CheckPaymentScreen(
+            sessionId: settings.arguments as String,
+          ),
+        );
 
       case OrdersScreen.routeName:
         return _materialRoute(const OrdersScreen());

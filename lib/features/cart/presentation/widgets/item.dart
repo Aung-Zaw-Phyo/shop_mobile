@@ -18,18 +18,10 @@ class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
+      margin: const EdgeInsets.only(top: 5, bottom: 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: const Offset(0, 3),
-          ),
-        ],
       ),
       child: Row(
         children: [
@@ -45,7 +37,7 @@ class _ItemState extends State<Item> {
                   Column(
                     children: [
                       Text(
-                        '\$${widget.item.variant.product.price * widget.item.quantity}',
+                        '\$${widget.item.amount}',
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,

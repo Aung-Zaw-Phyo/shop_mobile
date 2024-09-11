@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_mobile/features/cart/domain/entities/shipping_address.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_event.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_state.dart';
 import 'package:shop_mobile/core/stripe_service.dart';
+import 'package:shop_mobile/features/cart/presentation/pages/check_payment_screen.dart';
 
 class ShippingFormDialog extends StatefulWidget {
   const ShippingFormDialog({super.key});
@@ -13,6 +13,23 @@ class ShippingFormDialog extends StatefulWidget {
   @override
   State<ShippingFormDialog> createState() {
     return _ShippingFormDialogState();
+  }
+}
+
+class MyCustomClass {
+  const MyCustomClass();
+
+  Future<void> myAsyncMethod(BuildContext context, String secret) async {
+    try {
+      final sessionId = await StripeService.instatnce.makePayment(secret);
+      if (!context.mounted) return;
+      Navigator.of(context).pushNamed(
+        CheckPaymentScreen.routeName,
+        arguments: sessionId,
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }
 
@@ -204,14 +221,18 @@ class _ShippingFormDialogState extends State<ShippingFormDialog> {
       actions: [
         BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
           if (state is PaymentLoaded && isSubmit == true) {
-            SchedulerBinding.instance.addPostFrameCallback((_) async {
-              Navigator.pop(context);
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+              final navigator = Navigator.of(context);
+              navigator.pop();
               try {
-                final sessionId = await StripeService.instatnce
-                    .makePayment(state.clientSecret);
-                print(
-                    '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-                print(sessionId);
+                StripeService.instatnce
+                    .makePayment(state.clientSecret)
+                    .then((sessionId) {
+                  navigator.pushNamed(
+                    CheckPaymentScreen.routeName,
+                    arguments: sessionId,
+                  );
+                });
               } catch (e) {
                 print(e);
               }

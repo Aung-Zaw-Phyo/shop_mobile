@@ -4,6 +4,7 @@ import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_bloc
 import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_event.dart';
 import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_state.dart';
 import 'package:shop_mobile/features/orders/presentation/widgets/order.dart';
+import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
 import 'package:shop_mobile/features/products/presentation/widgets/app_bar_cart.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -49,69 +50,75 @@ class _OrderScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        foregroundColor: Colors.white,
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Orders'),
-            AppBarCart(),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamed(context, ProductsScreen.routeName);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.redAccent,
+          foregroundColor: Colors.white,
+          title: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Orders'),
+              AppBarCart(),
+            ],
+          ),
         ),
-      ),
-      body: RefreshIndicator(
-        onRefresh: refresh,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-          child: BlocBuilder<OrdersBloc, OrdersState>(
-            builder: (context, state) {
-              if (state is OrdersLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is OrdersFailed) {
-                return Center(
-                  child: Text(state.errors![0]),
-                );
-              }
-
-              if (state is OrdersLoaded) {
-                final data = state.ordersDataEntity!;
-                final orders = data.orders;
-                if (orders.isEmpty) {
+        body: RefreshIndicator(
+          onRefresh: refresh,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+            child: BlocBuilder<OrdersBloc, OrdersState>(
+              builder: (context, state) {
+                if (state is OrdersLoading) {
                   return const Center(
-                    child: Text(
-                      'No order,  go shopping.',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    child: CircularProgressIndicator(),
                   );
                 }
-                return ListView.builder(
-                  controller: controller,
-                  itemCount: orders.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index < state.ordersDataEntity!.orders.length) {
-                      return Order(order: orders[index]);
-                    } else {
-                      if (state.ordersDataEntity!.currentPage ==
-                          state.ordersDataEntity!.totalPages) {
-                        return const SizedBox();
-                      }
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                  },
-                );
-              }
+                if (state is OrdersFailed) {
+                  return Center(
+                    child: Text(state.errors![0]),
+                  );
+                }
 
-              return Container();
-            },
+                if (state is OrdersLoaded) {
+                  final data = state.ordersDataEntity!;
+                  final orders = data.orders;
+                  if (orders.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No order,  go shopping.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    controller: controller,
+                    itemCount: orders.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index < state.ordersDataEntity!.orders.length) {
+                        return Order(order: orders[index]);
+                      } else {
+                        if (state.ordersDataEntity!.currentPage ==
+                            state.ordersDataEntity!.totalPages) {
+                          return const SizedBox();
+                        }
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 32),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+                    },
+                  );
+                }
+
+                return Container();
+              },
+            ),
           ),
         ),
       ),

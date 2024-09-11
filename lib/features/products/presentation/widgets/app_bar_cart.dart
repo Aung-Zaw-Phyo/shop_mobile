@@ -7,7 +7,8 @@ import 'package:shop_mobile/features/cart/presentation/pages/cart_screen.dart';
 import 'package:badges/badges.dart' as badges;
 
 class AppBarCart extends StatefulWidget {
-  const AppBarCart({super.key});
+  final bool isCartScreen;
+  const AppBarCart({super.key, this.isCartScreen = false});
 
   @override
   State<AppBarCart> createState() => _AppBarCartState();
@@ -24,8 +25,10 @@ class _AppBarCartState extends State<AppBarCart> {
           error(context, 'Please login or register.');
           return;
         }
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pushNamed(CartScreen.routeName);
+        if (!widget.isCartScreen) {
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).pushNamed(CartScreen.routeName);
+        }
       },
       icon: badges.Badge(
         position: badges.BadgePosition.topEnd(top: -14, end: -10),

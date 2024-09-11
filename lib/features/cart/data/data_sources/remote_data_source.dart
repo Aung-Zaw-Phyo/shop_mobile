@@ -9,6 +9,7 @@ abstract class CartRemoteDataSource {
   Future<CartModel> addItem({required int quantity, required int variantId});
   Future<CartModel> removeItem({required int quantity, required int variantId});
   Future<String> createPayment({required ShippingAddressModel shippingAddress});
+  Future<int> checkPayment({required String sessionId});
 }
 
 class CartRemoteDataSourceImpl extends CartRemoteDataSource {
@@ -93,6 +94,28 @@ class CartRemoteDataSourceImpl extends CartRemoteDataSource {
     );
 
     if (response.statusCode == 201) {
+      return response.data['data'];
+    } else {
+      final messages = response.data['messages'] == null
+          ? ['Something wrong!']
+          : (response.data['messages'] as List<dynamic>).cast<String>();
+      throw ServerException(messages);
+    }
+  }
+
+  @override
+  Future<int> checkPayment({
+    required String sessionId,
+  }) async {
+    final prefs = await sharedPrefs();
+    final token = prefs.getString('token');
+    _dio.options.headers['Authorization'] = 'Bearer $token';
+
+    final response = await _dio.get(
+      '/orders/check/$sessionId',
+    );
+
+    if (response.statusCode == 200) {
       return response.data['data'];
     } else {
       final messages = response.data['messages'] == null

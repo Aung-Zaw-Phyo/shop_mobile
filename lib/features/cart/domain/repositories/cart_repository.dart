@@ -16,4 +16,7 @@ abstract class CartRepository {
   Future<Either<Failure, String>> createPayment({
     required ShippingAddressEntity shippingAddress,
   });
+  Future<Either<Failure, int>> checkPayment({
+    required String sessionId,
+  });
 }

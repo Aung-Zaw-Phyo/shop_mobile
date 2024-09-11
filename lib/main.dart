@@ -7,6 +7,7 @@ import 'package:shop_mobile/config/routes.dart';
 import 'package:shop_mobile/core/constants/constants.dart';
 import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
+import 'package:shop_mobile/features/cart/presentation/bloc/check_payment/check_payment_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/item/item_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_bloc.dart';
 import 'package:shop_mobile/features/orders/presentation/bloc/order_details/order_details_bloc.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<CartBloc>(create: (_) => locator<CartBloc>()),
         BlocProvider<ItemBloc>(create: (_) => locator<ItemBloc>()),
         BlocProvider<PaymentBloc>(create: (_) => locator<PaymentBloc>()),
+        BlocProvider<CheckPaymentBloc>(
+            create: (_) => locator<CheckPaymentBloc>()),
         BlocProvider<AuthBloc>(create: (_) => locator<AuthBloc>()),
         BlocProvider<ProductDetailBloc>(
             create: (_) => locator<ProductDetailBloc>()),

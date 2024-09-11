@@ -31,12 +31,18 @@ class Info extends StatelessWidget {
             const SizedBox(width: 4),
             const Text('x'),
             const SizedBox(width: 4),
-            Text(item.quantity.toString()),
+            Text(
+              item.quantity.toString(),
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 4),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               'Color - ',
@@ -45,7 +51,8 @@ class Info extends StatelessWidget {
             Text(
               item.variant.color,
               style: const TextStyle(
-                fontSize: 17,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(width: 10),
@@ -56,7 +63,8 @@ class Info extends StatelessWidget {
             Text(
               item.variant.size,
               style: const TextStyle(
-                fontSize: 17,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
