@@ -14,6 +14,13 @@ import 'package:shop_mobile/features/cart/domain/usecases/create_payment.dart';
 import 'package:shop_mobile/features/cart/domain/usecases/remove_item.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/item/item_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_bloc.dart';
+import 'package:shop_mobile/features/orders/data/data_sources/remote_data_source.dart';
+import 'package:shop_mobile/features/orders/data/repositories/orders_repository_impl.dart';
+import 'package:shop_mobile/features/orders/domain/repositories/orders_repository.dart';
+import 'package:shop_mobile/features/orders/domain/usecases/get_order_details.dart';
+import 'package:shop_mobile/features/orders/domain/usecases/get_orders.dart';
+import 'package:shop_mobile/features/orders/presentation/bloc/order_details/order_details_bloc.dart';
+import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_bloc.dart';
 import 'package:shop_mobile/features/products/data/data_sources/remote_data_source.dart';
 import 'package:shop_mobile/features/products/data/repositories/products_repository_impl.dart';
 import 'package:shop_mobile/features/products/domain/repositories/products_repository.dart';
@@ -34,6 +41,12 @@ void setupLocator() async {
   locator.registerFactory<ProductDetailBloc>(
     () => ProductDetailBloc(locator()),
   );
+  locator.registerFactory<OrdersBloc>(
+    () => OrdersBloc(locator()),
+  );
+  locator.registerFactory<OrderDetailsBloc>(
+    () => OrderDetailsBloc(locator()),
+  );
   locator.registerFactory<CartBloc>(
     () => CartBloc(locator()),
   );
@@ -52,6 +65,10 @@ void setupLocator() async {
       () => GetProductsUseCase(locator()));
   locator.registerLazySingleton<GetProductDetailUseCase>(
       () => GetProductDetailUseCase(locator()));
+  locator.registerLazySingleton<GetOrdersUseCase>(
+      () => GetOrdersUseCase(locator()));
+  locator.registerLazySingleton<GetOrderDetailsUseCase>(
+      () => GetOrderDetailsUseCase(locator()));
   locator
       .registerLazySingleton<GetCartUseCase>(() => GetCartUseCase(locator()));
   locator
@@ -67,6 +84,8 @@ void setupLocator() async {
   // repository
   locator.registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImpl(locator()));
+  locator.registerLazySingleton<OrdersRepository>(
+      () => OrdersRepositoryImpl(locator()));
   locator.registerLazySingleton<CartRepository>(
       () => CartRepositoryImpl(locator()));
   locator.registerLazySingleton<AuthRepository>(
@@ -75,6 +94,8 @@ void setupLocator() async {
   // datasource
   locator.registerLazySingleton<ProductsRemoteDataSource>(
       () => ProductsRemoteDataSourceImpl(locator()));
+  locator.registerLazySingleton<OrdersRemoteDataSource>(
+      () => OrdersRemoteDataSourceImpl(locator()));
   locator.registerLazySingleton<CartRemoteDataSource>(
       () => CartRemoteDataSourceImpl(locator()));
   locator.registerLazySingleton<AuthRemoteDataSource>(

@@ -9,6 +9,8 @@ import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_bloc.dart'
 import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/item/item_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_bloc.dart';
+import 'package:shop_mobile/features/orders/presentation/bloc/order_details/order_details_bloc.dart';
+import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/product_detail/product_detail_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
@@ -30,6 +32,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ProductsBloc>(create: (_) => locator<ProductsBloc>()),
+        BlocProvider<OrdersBloc>(create: (_) => locator<OrdersBloc>()),
+        BlocProvider<OrderDetailsBloc>(
+            create: (_) => locator<OrderDetailsBloc>()),
         BlocProvider<CartBloc>(create: (_) => locator<CartBloc>()),
         BlocProvider<ItemBloc>(create: (_) => locator<ItemBloc>()),
         BlocProvider<PaymentBloc>(create: (_) => locator<PaymentBloc>()),
