@@ -15,6 +15,8 @@ import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_bloc
 import 'package:shop_mobile/features/products/presentation/bloc/product_detail/product_detail_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
+import 'package:shop_mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:shop_mobile/features/profile/presentation/bloc/update_profile/update_profile_bloc.dart';
 import 'package:shop_mobile/injection_container.dart';
 
 void main() async {
@@ -42,6 +44,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<CheckPaymentBloc>(
             create: (_) => locator<CheckPaymentBloc>()),
         BlocProvider<AuthBloc>(create: (_) => locator<AuthBloc>()),
+        BlocProvider<ProfileBloc>(create: (_) => locator<ProfileBloc>()),
+        BlocProvider<UpdateProfileBloc>(
+            create: (_) => locator<UpdateProfileBloc>()),
         BlocProvider<ProductDetailBloc>(
             create: (_) => locator<ProductDetailBloc>()),
       ],

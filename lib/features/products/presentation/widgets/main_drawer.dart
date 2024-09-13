@@ -6,6 +6,7 @@ import 'package:shop_mobile/features/auth/presentation/bloc/auth/auth_event.dart
 import 'package:shop_mobile/features/auth/presentation/pages/login_screen.dart';
 import 'package:shop_mobile/features/orders/presentation/pages/orders_screen.dart';
 import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
+import 'package:shop_mobile/features/profile/presentation/pages/profile_screen.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({super.key});
@@ -75,13 +76,15 @@ class _MainDrawerState extends State<MainDrawer> {
                 color: Theme.of(context).colorScheme.onBackground,
               ),
               title: Text(
-                'Account',
+                'Profile',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 22,
                     ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.popAndPushNamed(context, ProfileScreen.routeName);
+              },
             ),
           if (isToken)
             ListTile(

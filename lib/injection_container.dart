@@ -32,6 +32,13 @@ import 'package:shop_mobile/features/products/domain/usecases/get_products.dart'
 import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/product_detail/product_detail_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
+import 'package:shop_mobile/features/profile/data/data_sources/remote_data_source.dart';
+import 'package:shop_mobile/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:shop_mobile/features/profile/domain/repositories/profile_repository.dart';
+import 'package:shop_mobile/features/profile/domain/usecases/get_profile.dart';
+import 'package:shop_mobile/features/profile/domain/usecases/update_profile.dart';
+import 'package:shop_mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:shop_mobile/features/profile/presentation/bloc/update_profile/update_profile_bloc.dart';
 
 final locator = GetIt.instance;
 
@@ -58,6 +65,12 @@ void setupLocator() async {
   locator.registerFactory<AuthBloc>(
     () => AuthBloc(locator(), locator()),
   );
+  locator.registerFactory<ProfileBloc>(
+    () => ProfileBloc(locator()),
+  );
+  locator.registerFactory<UpdateProfileBloc>(
+    () => UpdateProfileBloc(locator()),
+  );
   locator.registerFactory<PaymentBloc>(
     () => PaymentBloc(locator()),
   );
@@ -83,6 +96,10 @@ void setupLocator() async {
   locator.registerLazySingleton<LoginUseCase>(() => LoginUseCase(locator()));
   locator
       .registerLazySingleton<RegisterUseCase>(() => RegisterUseCase(locator()));
+  locator.registerLazySingleton<GetProfileUseCase>(
+      () => GetProfileUseCase(locator()));
+  locator.registerLazySingleton<UpdateProfileUseCase>(
+      () => UpdateProfileUseCase(locator()));
   locator.registerLazySingleton<CreatePaymentUseCase>(
       () => CreatePaymentUseCase(locator()));
   locator.registerLazySingleton<CheckPaymentUseCase>(
@@ -97,6 +114,8 @@ void setupLocator() async {
       () => CartRepositoryImpl(locator()));
   locator.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(locator()));
+  locator.registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(locator()));
 
   // datasource
   locator.registerLazySingleton<ProductsRemoteDataSource>(
@@ -107,6 +126,8 @@ void setupLocator() async {
       () => CartRemoteDataSourceImpl(locator()));
   locator.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(locator()));
+  locator.registerLazySingleton<ProfileRemoteDataSource>(
+      () => ProfileRemoteDataSourceImpl(locator()));
 
   // external
 

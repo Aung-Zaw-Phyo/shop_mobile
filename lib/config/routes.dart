@@ -8,6 +8,7 @@ import 'package:shop_mobile/features/products/domain/entities/product.dart';
 import 'package:shop_mobile/features/cart/presentation/pages/cart_screen.dart';
 import 'package:shop_mobile/features/products/presentation/pages/product_detail_screen.dart';
 import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
+import 'package:shop_mobile/features/profile/presentation/pages/profile_screen.dart';
 
 class AppRoutes {
   static Route onGenerateRoutes(RouteSettings settings) {
@@ -41,6 +42,9 @@ class AppRoutes {
             orderId: settings.arguments as int,
           ),
         );
+
+      case ProfileScreen.routeName:
+        return _materialRoute(const ProfileScreen());
 
       case LoginScreen.routeName:
         return _materialRoute(const LoginScreen());
