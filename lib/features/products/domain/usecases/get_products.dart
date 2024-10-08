@@ -7,7 +7,15 @@ class GetProductsUseCase {
   final ProductsRepository _productsRepository;
   const GetProductsUseCase(this._productsRepository);
 
-  Future<Either<Failure, ProductsDataEntity>> execute(int page) {
-    return _productsRepository.getProducts(page);
+  Future<Either<Failure, ProductsDataEntity>> execute({
+    required int page,
+    int? categoryId,
+    String? search,
+  }) {
+    return _productsRepository.getProducts(
+      page: page,
+      categoryId: categoryId,
+      search: search,
+    );
   }
 }

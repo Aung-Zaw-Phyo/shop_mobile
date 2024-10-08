@@ -43,6 +43,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.redAccent,
+          foregroundColor: Colors.white,
           title: const Text('Profile'),
         ),
         body: BlocBuilder<ProfileBloc, ProfileState>(

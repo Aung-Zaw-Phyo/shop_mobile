@@ -16,23 +16,6 @@ class ShippingFormDialog extends StatefulWidget {
   }
 }
 
-class MyCustomClass {
-  const MyCustomClass();
-
-  Future<void> myAsyncMethod(BuildContext context, String secret) async {
-    try {
-      final sessionId = await StripeService.instatnce.makePayment(secret);
-      if (!context.mounted) return;
-      Navigator.of(context).pushNamed(
-        CheckPaymentScreen.routeName,
-        arguments: sessionId,
-      );
-    } catch (e) {
-      print(e);
-    }
-  }
-}
-
 class _ShippingFormDialogState extends State<ShippingFormDialog> {
   final _form = GlobalKey<FormState>();
   var _enteredName = '';

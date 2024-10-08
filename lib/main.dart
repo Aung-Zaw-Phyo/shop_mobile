@@ -12,6 +12,7 @@ import 'package:shop_mobile/features/cart/presentation/bloc/item/item_bloc.dart'
 import 'package:shop_mobile/features/cart/presentation/bloc/payment/payment_bloc.dart';
 import 'package:shop_mobile/features/orders/presentation/bloc/order_details/order_details_bloc.dart';
 import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_bloc.dart';
+import 'package:shop_mobile/features/products/presentation/bloc/categories/categories_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/product_detail/product_detail_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/pages/products_screen.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ProductsBloc>(create: (_) => locator<ProductsBloc>()),
+        BlocProvider<CategoriesBloc>(create: (_) => locator<CategoriesBloc>()),
         BlocProvider<OrdersBloc>(create: (_) => locator<OrdersBloc>()),
         BlocProvider<OrderDetailsBloc>(
             create: (_) => locator<OrderDetailsBloc>()),

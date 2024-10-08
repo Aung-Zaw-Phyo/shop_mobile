@@ -23,13 +23,18 @@ import 'package:shop_mobile/features/orders/domain/usecases/get_order_details.da
 import 'package:shop_mobile/features/orders/domain/usecases/get_orders.dart';
 import 'package:shop_mobile/features/orders/presentation/bloc/order_details/order_details_bloc.dart';
 import 'package:shop_mobile/features/orders/presentation/bloc/orders/orders_bloc.dart';
-import 'package:shop_mobile/features/products/data/data_sources/remote_data_source.dart';
+import 'package:shop_mobile/features/products/data/data_sources/categories_remote_data_source.dart';
+import 'package:shop_mobile/features/products/data/data_sources/products_remote_data_source.dart';
+import 'package:shop_mobile/features/products/data/repositories/categories_repository_impl.dart';
 import 'package:shop_mobile/features/products/data/repositories/products_repository_impl.dart';
+import 'package:shop_mobile/features/products/domain/repositories/categories.repository.dart';
 import 'package:shop_mobile/features/products/domain/repositories/products_repository.dart';
 import 'package:shop_mobile/features/cart/domain/usecases/get_cart.dart';
+import 'package:shop_mobile/features/products/domain/usecases/get_categories.dart';
 import 'package:shop_mobile/features/products/domain/usecases/get_product_detail.dart';
 import 'package:shop_mobile/features/products/domain/usecases/get_products.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
+import 'package:shop_mobile/features/products/presentation/bloc/categories/categories_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/product_detail/product_detail_bloc.dart';
 import 'package:shop_mobile/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:shop_mobile/features/profile/data/data_sources/remote_data_source.dart';
@@ -49,6 +54,9 @@ void setupLocator() async {
   );
   locator.registerFactory<ProductDetailBloc>(
     () => ProductDetailBloc(locator()),
+  );
+  locator.registerFactory<CategoriesBloc>(
+    () => CategoriesBloc(locator()),
   );
   locator.registerFactory<OrdersBloc>(
     () => OrdersBloc(locator()),
@@ -83,6 +91,8 @@ void setupLocator() async {
       () => GetProductsUseCase(locator()));
   locator.registerLazySingleton<GetProductDetailUseCase>(
       () => GetProductDetailUseCase(locator()));
+  locator.registerLazySingleton<GetCategoriesUseCase>(
+      () => GetCategoriesUseCase(locator()));
   locator.registerLazySingleton<GetOrdersUseCase>(
       () => GetOrdersUseCase(locator()));
   locator.registerLazySingleton<GetOrderDetailsUseCase>(
@@ -108,6 +118,8 @@ void setupLocator() async {
   // repository
   locator.registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImpl(locator()));
+  locator.registerLazySingleton<CategoriesRepository>(
+      () => CategoriesRepositoryImpl(locator()));
   locator.registerLazySingleton<OrdersRepository>(
       () => OrdersRepositoryImpl(locator()));
   locator.registerLazySingleton<CartRepository>(
@@ -120,6 +132,8 @@ void setupLocator() async {
   // datasource
   locator.registerLazySingleton<ProductsRemoteDataSource>(
       () => ProductsRemoteDataSourceImpl(locator()));
+  locator.registerLazySingleton<CategoriesRemoteDataSource>(
+      () => CategoriesRemoteDataSourceImpl(locator()));
   locator.registerLazySingleton<OrdersRemoteDataSource>(
       () => OrdersRemoteDataSourceImpl(locator()));
   locator.registerLazySingleton<CartRemoteDataSource>(

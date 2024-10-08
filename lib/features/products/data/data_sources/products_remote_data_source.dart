@@ -5,7 +5,11 @@ import 'package:shop_mobile/features/products/data/models/product_model.dart';
 import 'package:shop_mobile/features/products/data/models/products_data_model.dart';
 
 abstract class ProductsRemoteDataSource {
-  Future<ProductsDataModel> getProducts(int page);
+  Future<ProductsDataModel> getProducts({
+    required int page,
+    int? categoryId,
+    String? search,
+  });
   Future<ProductModel> getProductDetail(int productId);
 }
 
@@ -14,10 +18,20 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
   ProductsRemoteDataSourceImpl(this._dio);
 
   @override
-  Future<ProductsDataModel> getProducts(int page) async {
-    final response = await _dio.get(
-        '${Constant.baseUrl}/products?page=$page&limit=${Constant.paginateItemsLimit}');
-
+  Future<ProductsDataModel> getProducts({
+    required int page,
+    int? categoryId,
+    String? search,
+  }) async {
+    String url =
+        '${Constant.baseUrl}/products?page=$page&limit=${Constant.paginateItemsLimit}';
+    if (categoryId != null) {
+      url = '$url&filter.categories.id=$categoryId';
+    }
+    if (search != null) {
+      url = '$url&search=$search';
+    }
+    final response = await _dio.get(url);
     if (response.statusCode == 200) {
       List<ProductModel> products = response.data['data']['items']
           .map<ProductModel>(
@@ -30,7 +44,10 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
       );
       return productsData;
     } else {
-      throw ServerException(response.data['messages'] ?? ['Something wrong!']);
+      final messages = response.data['messages'] == null
+          ? ['Something wrong!']
+          : (response.data['messages'] as List<dynamic>).cast<String>();
+      throw ServerException(messages);
     }
   }
 
@@ -42,7 +59,10 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
       final product = ProductModel.fromJson(response.data['data']);
       return product;
     } else {
-      throw ServerException(response.data['messages'] ?? ['Something wrong!']);
+      final messages = response.data['messages'] == null
+          ? ['Something wrong!']
+          : (response.data['messages'] as List<dynamic>).cast<String>();
+      throw ServerException(messages);
     }
   }
 }

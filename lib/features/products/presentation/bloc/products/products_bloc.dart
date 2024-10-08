@@ -19,7 +19,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
   void onGetProducts(GetProducts event, Emitter<ProductsState> emit) async {
-    final result = await _getProductsUseCase.execute(event.page);
+    final result = await _getProductsUseCase.execute(
+      page: event.page,
+      categoryId: event.categoryId,
+      search: event.search,
+    );
     result.fold((failure) {
       emit(ProductsFailed(failure.messages));
     }, (result) {
@@ -34,7 +38,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   void onProductsRefresh(
       ProductsRefresh event, Emitter<ProductsState> emit) async {
     emit(const ProductsLoading());
-    final result = await _getProductsUseCase.execute(1);
+    final result = await _getProductsUseCase.execute(
+      page: 1,
+      categoryId: event.categoryId,
+      search: event.search,
+    );
     result.fold((failure) {
       emit(ProductsFailed(failure.messages));
     }, (result) {
