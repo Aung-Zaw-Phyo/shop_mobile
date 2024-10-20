@@ -35,7 +35,13 @@ class _AppBarCartState extends State<AppBarCart> {
         badgeContent: BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
             final cart = state.cartEntity;
-            final count = cart != null ? cart.items.length : 0;
+            int totalQuantity = 0;
+            if (cart != null) {
+              for (var item in cart.items) {
+                totalQuantity += item.quantity;
+              }
+            }
+            final count = totalQuantity;
             return Text(count.toString(),
                 style: const TextStyle(color: Colors.white));
           },

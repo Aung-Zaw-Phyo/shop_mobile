@@ -56,7 +56,7 @@ class _CartScreenState extends State<CartScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Orders'),
+            Text('Cart'),
             AppBarCart(isCartScreen: true),
           ],
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_bloc.dart';
+import 'package:shop_mobile/features/cart/presentation/bloc/cart/cart_event.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/check_payment/check_payment_bloc.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/check_payment/check_payment_event.dart';
 import 'package:shop_mobile/features/cart/presentation/bloc/check_payment/check_payment_state.dart';
@@ -22,14 +24,14 @@ class CheckPaymentScreen extends StatefulWidget {
 class _CheckPaymentScreenState extends State<CheckPaymentScreen> {
   @override
   void initState() {
-    BlocProvider.of<CheckPaymentBloc>(context)
-        .add(CheckPayment(widget.sessionId));
+    checkPaymentSuccess();
     super.initState();
   }
 
-  void reload() {
+  void checkPaymentSuccess() {
     BlocProvider.of<CheckPaymentBloc>(context)
         .add(CheckPayment(widget.sessionId));
+    BlocProvider.of<CartBloc>(context).add(const GetCart());
   }
 
   @override
@@ -63,7 +65,7 @@ class _CheckPaymentScreenState extends State<CheckPaymentScreen> {
                     ),
                     const SizedBox(height: 10),
                     ElevatedButton(
-                      onPressed: reload,
+                      onPressed: checkPaymentSuccess,
                       child: const Text('Reload'),
                     ),
                   ],
